@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link href='https://fonts.googleapis.com/css2?family=Pacifico&family=Fredoka+One' rel='stylesheet'>
+</head>
+<body>
+    <h1 class="zany-message">Your label is printing: <br> {{ label }}</h1>
+    <a href="{{ url_for('index') }}">Want more?</a>
+    <div id="countdown"></div>
+    <script>
+        var count = 10;
+        var countdown = document.getElementById("countdown");
+
+        function startTimer() {
+            setInterval(function() {
+                count--;
+                countdown.innerHTML = count;
+                if (count === 0) {
+                    window.location.href = "{{ url_for('index') }}";
+                }
+            }, 1000);
+        }
+        window.onload = startTimer;
+    </script>
+</body>
+</html>
