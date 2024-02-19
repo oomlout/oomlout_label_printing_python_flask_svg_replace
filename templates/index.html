@@ -9,11 +9,35 @@
         <h1>oomlout_label_printing_python_flask_svg_replace</h1>
         <form method="post">
             <label for="label">enter label</label>
-            <input type="text" id="label" name="label" required>
+            <input type="text" id="label" name="label" required >
             <button type="submit">print</button>        
         </form>
         <br>
         <br>
+    </div> 
+    <div class="container">        
+        <h2>status</h2>
+        <p>{{ status }}</p>
+    </div>
+    <div class="container">        
+        <h2>label</h2>
+        <p>{{ label }}</p>
+    </div>
+    <div class="container">        
+        <h2>commands</h2>
+* all<br>
+&nbsp;&nbsp;* -m -multiple # - print multiple copies<br>
+* label - standard label printing<br>
+&nbsp;&nbsp;* examples<br>
+&nbsp;&nbsp;&nbsp;&nbsp;* label "this is the messgae"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;* label -m 6 "this is the message to print six times"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;* label "label 1,label 2, label 3" (prints three labels)<br>
+* oomp - oomp label printing (oompa for project bolt label)<br>
+&nbsp;&nbsp;* examples<br>
+&nbsp;&nbsp;&nbsp;&nbsp;* oomp electronic_ic_tssop_8_multiplexer_power_multiplexer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;* oomp 4we3c (alpha md5)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;* oomp itssp8mpptps (short code)<br>
+    
     </div>
     <div class="container">
         <h1>Last Five Entries</h1>
