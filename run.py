@@ -327,8 +327,8 @@ def generate_pdf(**kwargs):
 if __name__ == '__main__':
     #app.run(host='0.0.0.0', port=1112, debug=True, threaded=True)
     kwargs = {}
-    #kwargs["load_parts_force"] = True
-    kwargs["load_parts_force"] = False
+    kwargs["load_parts_force"] = True
+    #kwargs["load_parts_force"] = False
 
     kwargs["generate_pdf_force"] = False
     #kwargs["generate_pdf_force"] = True
