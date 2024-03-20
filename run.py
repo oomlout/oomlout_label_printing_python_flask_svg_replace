@@ -307,7 +307,7 @@ def load_parts(**kwargs):
         md5 = part["md5_6_alpha"]
         oomp_parts_md5_6_alpha[md5] = part_id
         #make a dictionary of short_codes
-        short_code = part.get("oomlout_short_code",part.get("short_code","")
+        short_code = part.get("oomlout_short_code",part.get("short_code",""))
         if short_code != "":
             oomp_parts_oomlout_short_code[short_code] = part_id
     pass 
