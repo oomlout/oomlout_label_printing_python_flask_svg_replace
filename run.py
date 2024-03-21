@@ -310,7 +310,10 @@ def load_parts(**kwargs):
         short_code = part.get("oomlout_short_code",part.get("short_code",""))
         if short_code != "":
             oomp_parts_oomlout_short_code[short_code] = part_id
-    pass 
+            if "hardware" in part_id:
+                pass
+                #print(f"{short_code} {part_id}")
+        
 
 def generate_pdf(**kwargs):
     generate_pdf_force = kwargs.get("generate_pdf_force", False)
