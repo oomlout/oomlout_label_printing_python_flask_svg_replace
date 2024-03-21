@@ -301,10 +301,10 @@ def load_parts(**kwargs):
         oomp_parts_id[part_id] = part_id
         part = oomp_parts[part_id]
         #make a dictionary of md5's
-        md5 = part["md5_6"]
+        md5 = part.get("md5_6","")
         oomp_parts_md5_6[md5] = part_id
         #make a dictionary of md5's
-        md5 = part["md5_6_alpha"]
+        md5 = part.get("md5_6_alpha","")
         oomp_parts_md5_6_alpha[md5] = part_id
         #make a dictionary of short_codes
         short_code = part.get("oomlout_short_code",part.get("short_code",""))
