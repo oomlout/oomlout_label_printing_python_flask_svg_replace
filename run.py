@@ -267,7 +267,7 @@ def load_parts(**kwargs):
     load_parts_force = kwargs.get("load_parts_force", False)
     global oomp_parts
     #directory_parts = "C:/gh/oomlout_oomp_current_version/parts"
-    directory_parts = = "C:\\gh\\oomlout_oomp_part_generation_version_1\\parts"
+    directory_parts = "C:\\gh\\oomlout_oomp_part_generation_version_1\\parts"
 
     pickle_file = "tmp/parts.pickle"
     if os.path.exists(pickle_file) and not load_parts_force:
