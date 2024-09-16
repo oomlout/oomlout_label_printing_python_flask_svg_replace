@@ -225,7 +225,7 @@ def label_print_oomp(**kwargs):
         if part_id in oomp_parts:
             part = oomp_parts[part_id]
             #file_label_base = "C:/gh/oomlout_oomp_part_src/parts"
-            file_label_base = "C:/gh/oomlout_oomp_current_version/parts"
+            file_label_base = "C:/gh/oomlout_oomp_current_version_messy/parts"
             file_label_end = kwargs.get("file_label_end","label_oomlout_76_2_mm_50_8_mm.pdf")
             file_label = f"{file_label_base}/{part['id']}/{file_label_end}"
             file_input = file_label
