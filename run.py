@@ -221,6 +221,9 @@ def label_print_oomp(**kwargs):
     if part_id == "":
         #check for md5
         part_id = oomp_parts_oomlout_short_code.get(content, "")
+    #check bip_39_2_word_space
+    if part_id == "":
+        part_id = oomp_parts_bip_39_2_word_no_space.get(content, "")        
     if part_id != "":
         if part_id in oomp_parts:
             part = oomp_parts[part_id]
@@ -261,6 +264,7 @@ oomp_parts_id = {}
 oomp_parts_md5_6 = {}
 oomp_parts_md5_6_alpha = {}
 oomp_parts_oomlout_short_code = {}
+oomp_parts_bip_39_2_word_no_space = {}
 
 
 def load_parts(**kwargs):
@@ -316,6 +320,11 @@ def load_parts(**kwargs):
                 pass
                 #print(f"{short_code} {part_id}")
         
+        #make a dictionary of bip_39_2_word_space
+        bip_39_2_word_no_space = part.get("bip_39_word_no_space_2","")
+        if bip_39_2_word_no_space != "":
+            oomp_parts_bip_39_2_word_no_space[bip_39_2_word_no_space] = part_id
+
 
 def generate_pdf(**kwargs):
     generate_pdf_force = kwargs.get("generate_pdf_force", False)
