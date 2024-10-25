@@ -7,7 +7,7 @@ import oomp
 import shlex
 import re
 
-file_log = "tmp/log.yaml"
+file_log = "temporary/log.yaml"
 #if log file doesn't exist create it
 if not os.path.exists(file_log):
     #make directroies
@@ -283,7 +283,7 @@ def load_parts(**kwargs):
     #test
     #directory_parts = "C:\\gh\\oomlout_oomp_current_version_fast_test"
 
-    pickle_file = "tmp/parts.pickle"
+    pickle_file = "temporary/parts.pickle"
     if os.path.exists(pickle_file) and not load_parts_force:
         import pickle
         with open(pickle_file, "rb") as infile:
