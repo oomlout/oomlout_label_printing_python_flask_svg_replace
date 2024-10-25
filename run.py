@@ -223,12 +223,18 @@ def label_print_oomp(**kwargs):
         part_id = oomp_parts_oomlout_short_code.get(content, "")
     #check bip_39_2_word_space
     if part_id == "":
-        part_id = oomp_parts_bip_39_2_word_no_space.get(content, "")        
+        part_id = oomp_parts_bip_39_2_word_no_space.get(content, "")       
+    #check bip_39_2_word_underscore
+    if part_id == "":
+        part_id = oomp_parts_bip_39_2_word_underscore.get(content, "")
     if part_id != "":
         if part_id in oomp_parts:
             part = oomp_parts[part_id]
-            #file_label_base = "C:/gh/oomlout_oomp_part_src/parts"
+            #file_label_base = "C:/gh/oomlout_oomp_part_src/parts"            
             file_label_base = "C:/gh/oomlout_oomp_current_version_messy/parts"
+            
+            
+            
             file_label_end = kwargs.get("file_label_end","label_oomlout_76_2_mm_50_8_mm.pdf")
             file_label = f"{file_label_base}/{part['id']}/{file_label_end}"
             file_input = file_label
@@ -265,6 +271,8 @@ oomp_parts_md5_6 = {}
 oomp_parts_md5_6_alpha = {}
 oomp_parts_oomlout_short_code = {}
 oomp_parts_bip_39_2_word_no_space = {}
+oomp_parts_bip_39_2_word_underscore = {}
+
 
 
 def load_parts(**kwargs):
@@ -272,6 +280,8 @@ def load_parts(**kwargs):
     global oomp_parts
     #directory_parts = "C:/gh/oomlout_oomp_current_version/parts"
     directory_parts = "C:\\gh\\oomlout_oomp_part_generation_version_1\\parts"
+    #test
+    #directory_parts = "C:\\gh\\oomlout_oomp_current_version_fast_test"
 
     pickle_file = "tmp/parts.pickle"
     if os.path.exists(pickle_file) and not load_parts_force:
@@ -324,6 +334,11 @@ def load_parts(**kwargs):
         bip_39_2_word_no_space = part.get("bip_39_word_no_space_2","")
         if bip_39_2_word_no_space != "":
             oomp_parts_bip_39_2_word_no_space[bip_39_2_word_no_space] = part_id
+
+        #make a dictionary of bip_39_2_word_underscore
+        bip_39_2_word_underscore = part.get("bip_39_word_underscore_2","")
+        if bip_39_2_word_underscore != "":
+            oomp_parts_bip_39_2_word_underscore[bip_39_2_word_underscore] = part_id
 
 
 def generate_pdf(**kwargs):
