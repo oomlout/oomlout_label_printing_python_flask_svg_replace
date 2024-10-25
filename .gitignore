@@ -1,6 +1,7 @@
 working-backups/
 output/
 tmp/*
+temporary
 Backup_
 _autosave
 backup
