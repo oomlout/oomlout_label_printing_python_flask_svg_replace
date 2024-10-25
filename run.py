@@ -279,7 +279,8 @@ def load_parts(**kwargs):
     load_parts_force = kwargs.get("load_parts_force", False)
     global oomp_parts
     #directory_parts = "C:/gh/oomlout_oomp_current_version/parts"
-    directory_parts = "C:\\gh\\oomlout_oomp_part_generation_version_1\\parts"
+    #directory_parts = "C:\\gh\\oomlout_oomp_part_generation_version_1\\parts"
+    directory_parts = "C:\\gh\\oomlout_oomp_part_current_version_messy\\parts"
     #test
     #directory_parts = "C:\\gh\\oomlout_oomp_current_version_fast_test"
 
