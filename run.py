@@ -25,8 +25,14 @@ def index():
     entries = []    
     label = ""
     kwargs = {}
-    if request.method == 'POST':        
-        label = request.form['label']
+    #embed get data as post data
+    if request.method == 'POST' or request.method == 'GET':   
+        if request.method == 'POST':     
+            label = request.form['label']
+        elif request.method == 'GET':
+            label = request.args.get('label', "")
+        else:
+            label = ""
         kwargs["label"] = label
         label_args = process_args(label)
         kwargs["label_args"] = label_args
@@ -91,7 +97,8 @@ def index():
     status = kwargs.get("status", "none")
     return render_template('index.html', entries=entries, status=status, label=label)
 
-def process_args(label):    
+def process_args(label):  
+
     label = expand_square_brackets(label)        
     if not isinstance(label, list):
         label = [label]
@@ -280,7 +287,7 @@ def load_parts(**kwargs):
     global oomp_parts
     #directory_parts = "C:/gh/oomlout_oomp_current_version/parts"
     #directory_parts = "C:\\gh\\oomlout_oomp_part_generation_version_1\\parts"
-    directory_parts = "C:\\gh\\oomlout_oomp_current_version_messy\\parts"
+    directory_parts = "Z:\\oomlout_oomp_current_version_fast_test\\parts"
     #test
     #directory_parts = "C:\\gh\\oomlout_oomp_current_version_fast_test"
 
