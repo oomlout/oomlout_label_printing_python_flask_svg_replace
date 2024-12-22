@@ -238,25 +238,31 @@ def label_print_oomp(**kwargs):
         if part_id in oomp_parts:
             part = oomp_parts[part_id]
             #file_label_base = "C:/gh/oomlout_oomp_part_src/parts"            
-            file_label_base = "C:/gh/oomlout_oomp_current_version_messy/parts"
             
+            #file_label_base = "C:/gh/oomlout_oomp_current_version_messy/parts"
+            file_label_bases = kwargs.get("file_label_bases", [])
             
-            
-            file_label_end = kwargs.get("file_label_end","label_oomlout_76_2_mm_50_8_mm.pdf")
-            file_label = f"{file_label_base}/{part['id']}/{file_label_end}"
-            file_input = file_label
-            p3["file_input"] = file_input
-            
-            #if file label dosen't exist see if it exists as an svg
-            if not os.path.exists(file_label):
-                file_label_svg = file_label.replace(".pdf", ".svg")
-                if os.path.exists(file_label_svg):
-                    status = p3.get("status", "")
-                    stat = f"generating from svg"
-                    print()
-                    status += f"{stat}\n"
-                    p3["status"] = status
-                    oom_base.convert_svg_to_pdf(file_input = file_label_svg)
+            found = False
+            for file_label_base in file_label_bases:
+                if not found:
+                    file_label_end = kwargs.get("file_label_end","label_oomlout_76_2_mm_50_8_mm.pdf")
+                    file_label = f"{file_label_base}/{part['id']}/{file_label_end}"
+                    file_input = file_label
+                    p3["file_input"] = file_input
+                    
+                    #if file label dosen't exist see if it exists as an svg
+                    if not os.path.exists(file_label):
+                        file_label_svg = file_label.replace(".pdf", ".svg")
+                        if os.path.exists(file_label_svg):
+                            status = p3.get("status", "")
+                            stat = f"generating from svg"
+                            print()
+                            status += f"{stat}\n"
+                            p3["status"] = status
+                            found = True
+                            oom_base.convert_svg_to_pdf(file_input = file_label_svg)
+            if not found:
+                print("label not found")
 
 
 
@@ -298,13 +304,16 @@ def load_parts(**kwargs):
     #directory_parts = "Z:\\oomlout_oomp_current_version_fast_test\\parts"
     #directory_parts = "C:\\gh\\oomlout_oomp_current_version_messy\\parts"
     #directory_parts = "C:\\gh\\oomlout_oomp_current_version_fast_test"
-
+    file_label_bases = []
     if repo_list != []:
         for repo in repo_list:
             #grab the base name of the repo from the end of the url
             repo_directory_base = repo["url"].split("/")[-1]
             directory_parts = f"{repo_base}\\{repo_directory_base}\\parts"
-        
+            file_label_bases.append(directory_parts)
+            kwargs["file_label_bases"] = file_label_bases
+
+
             pickle_file = "temporary/parts.pickle"
             if os.path.exists(pickle_file) and not load_parts_force:
                 import pickle
@@ -397,6 +406,8 @@ if __name__ == '__main__':
     #kwargs["generate_pdf_force"] = True
     
     kwargs.update(configuration)
+
+    
 
     load_parts(**kwargs)
     generate_pdf(**kwargs)
