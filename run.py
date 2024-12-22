@@ -7,6 +7,8 @@ import oomp
 import shlex
 import re
 
+kwargs_configuration = {}
+
 file_log = "temporary/log.yaml"
 #if log file doesn't exist create it
 if not os.path.exists(file_log):
@@ -211,6 +213,7 @@ def label_print(**kwargs):
     return p3
 
 def label_print_oomp(**kwargs):
+    global kwargs_configuration
     p3 = copy.deepcopy(kwargs)
     content = p3['content']
     #get style it's character 5
@@ -240,7 +243,7 @@ def label_print_oomp(**kwargs):
             #file_label_base = "C:/gh/oomlout_oomp_part_src/parts"            
             
             #file_label_base = "C:/gh/oomlout_oomp_current_version_messy/parts"
-            file_label_bases = kwargs.get("file_label_bases", [])
+            file_label_bases = kwargs_configuration.get("file_label_bases", [])
             
             found = False
             for file_label_base in file_label_bases:
@@ -375,6 +378,7 @@ def load_parts(**kwargs):
         print("no repo_list")
         import time
         time.sleep(30)
+    return kwargs
 
 def generate_pdf(**kwargs):
     generate_pdf_force = kwargs.get("generate_pdf_force", False)
@@ -409,7 +413,10 @@ if __name__ == '__main__':
 
     
 
-    load_parts(**kwargs)
+    kwargs = load_parts(**kwargs)
     generate_pdf(**kwargs)
+
+    kwargs_configuration = kwargs
+
     app.run(host='0.0.0.0', port=1112) # faster launch no debug
     #oom_base.print_message_label(label = "test")
