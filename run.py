@@ -390,7 +390,7 @@ def generate_pdf(**kwargs):
 
 if __name__ == '__main__':
     #app.run(host='0.0.0.0', port=1112, debug=True, threaded=True)
-    file_configuration = "configuration\working.yaml"
+    file_configuration = "configuration\\working.yaml"
     try:
         with open(file_configuration, "r") as infile:
             configuration = yaml.load(infile, Loader=yaml.FullLoader)
