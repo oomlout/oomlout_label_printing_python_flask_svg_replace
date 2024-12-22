@@ -1,0 +1,5 @@
+#repo_base: "z:"
+repo_base: "c:/gh"
+repo_list:
+  - name: "main_messy_version"
+    url: "https://github.com/oomlout/oomlout_oomp_version_1_messy"

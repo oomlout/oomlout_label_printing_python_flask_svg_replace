@@ -285,69 +285,87 @@ oomp_parts_bip_39_2_word_underscore = {}
 def load_parts(**kwargs):
     load_parts_force = kwargs.get("load_parts_force", True)
     global oomp_parts
+
+    #repo_default = {"name": "oomlout_oomp_current_version_messy", "url": "https://github.com/oomlout/oomlout_oomp_version_1_messy"}
+    #repo_list_default = [repo_default]
+    repo_list_default = []
+    repo_base = kwargs.get("repo_base", "C:\\gh")
+    
+    repo_list = kwargs.get("repo_list", repo_list_default)
+
     #directory_parts = "C:/gh/oomlout_oomp_current_version/parts"
     #directory_parts = "C:\\gh\\oomlout_oomp_part_generation_version_1\\parts"
     #directory_parts = "Z:\\oomlout_oomp_current_version_fast_test\\parts"
-    directory_parts = "C:\\gh\\oomlout_oomp_current_version_messy\\parts"
+    #directory_parts = "C:\\gh\\oomlout_oomp_current_version_messy\\parts"
     #directory_parts = "C:\\gh\\oomlout_oomp_current_version_fast_test"
 
-    pickle_file = "temporary/parts.pickle"
-    if os.path.exists(pickle_file) and not load_parts_force:
-        import pickle
-        with open(pickle_file, "rb") as infile:
-            oomp_parts = pickle.load(infile)
-    else:
-        #get all files called working.yaml using glob
-        print("loading parts from yaml")
-        import glob
-        files = glob.glob(f"{directory_parts}/**/working.yaml", recursive=True)
-        count = 0
-        for file in files:
-            #load yaml
-            with open(file, "r") as infile:
-                #print a dot
-                count += 1
-                part = yaml.load(infile, Loader=yaml.FullLoader)
-                if part != None:
-                    oomp_parts[part["id"]] = part
-            #every 1000 print a dot
-            if count % 100 == 0:
-                print(".", end="", flush=True)
-        #save to pickle
-        import pickle
-        #make directroies
-        os.makedirs(os.path.dirname(pickle_file), exist_ok=True)        
-        with open(pickle_file, "wb") as outfile:
-            pickle.dump(oomp_parts, outfile)
-        #make a dictionary of id's
-    print("making indexes")
-    for part_id in oomp_parts:        
-        oomp_parts_id[part_id] = part_id
-        part = oomp_parts[part_id]
-        #make a dictionary of md5's
-        md5 = part.get("md5_6","")
-        oomp_parts_md5_6[md5] = part_id
-        #make a dictionary of md5's
-        md5 = part.get("md5_6_alpha","")
-        oomp_parts_md5_6_alpha[md5] = part_id
-        #make a dictionary of short_codes
-        short_code = part.get("oomlout_short_code",part.get("short_code",""))
-        if short_code != "":
-            oomp_parts_oomlout_short_code[short_code] = part_id
-            if "hardware" in part_id:
-                pass
-                #print(f"{short_code} {part_id}")
+    if repo_list != []:
+        for repo in repo_list:
+            #grab the base name of the repo from the end of the url
+            repo_directory_base = repo["url"].split("/")[-1]
+            directory_parts = f"{repo_base}\\{repo_directory_base}\\parts"
         
-        #make a dictionary of bip_39_2_word_space
-        bip_39_2_word_no_space = part.get("bip_39_word_no_space_2","")
-        if bip_39_2_word_no_space != "":
-            oomp_parts_bip_39_2_word_no_space[bip_39_2_word_no_space] = part_id
+            pickle_file = "temporary/parts.pickle"
+            if os.path.exists(pickle_file) and not load_parts_force:
+                import pickle
+                with open(pickle_file, "rb") as infile:
+                    oomp_parts = pickle.load(infile)
+            else:
+                #get all files called working.yaml using glob
+                print("loading parts from yaml")
+                import glob
+                files = glob.glob(f"{directory_parts}/**/working.yaml", recursive=True)
+                count = 0
+                for file in files:
+                    #load yaml
+                    with open(file, "r") as infile:
+                        #print a dot
+                        count += 1
+                        part = yaml.load(infile, Loader=yaml.FullLoader)
+                        if part != None:
+                            oomp_parts[part["id"]] = part
+                    #every 1000 print a dot
+                    if count % 100 == 0:
+                        print(".", end="", flush=True)
+                #save to pickle
+                import pickle
+                #make directroies
+                os.makedirs(os.path.dirname(pickle_file), exist_ok=True)        
+                with open(pickle_file, "wb") as outfile:
+                    pickle.dump(oomp_parts, outfile)
+                #make a dictionary of id's
+        
+        print("making indexes")
+        for part_id in oomp_parts:        
+            oomp_parts_id[part_id] = part_id
+            part = oomp_parts[part_id]
+            #make a dictionary of md5's
+            md5 = part.get("md5_6","")
+            oomp_parts_md5_6[md5] = part_id
+            #make a dictionary of md5's
+            md5 = part.get("md5_6_alpha","")
+            oomp_parts_md5_6_alpha[md5] = part_id
+            #make a dictionary of short_codes
+            short_code = part.get("oomlout_short_code",part.get("short_code",""))
+            if short_code != "":
+                oomp_parts_oomlout_short_code[short_code] = part_id
+                if "hardware" in part_id:
+                    pass
+                    #print(f"{short_code} {part_id}")
+            
+            #make a dictionary of bip_39_2_word_space
+            bip_39_2_word_no_space = part.get("bip_39_word_no_space_2","")
+            if bip_39_2_word_no_space != "":
+                oomp_parts_bip_39_2_word_no_space[bip_39_2_word_no_space] = part_id
 
-        #make a dictionary of bip_39_2_word_underscore
-        bip_39_2_word_underscore = part.get("bip_39_word_underscore_2","")
-        if bip_39_2_word_underscore != "":
-            oomp_parts_bip_39_2_word_underscore[bip_39_2_word_underscore] = part_id
-
+            #make a dictionary of bip_39_2_word_underscore
+            bip_39_2_word_underscore = part.get("bip_39_word_underscore_2","")
+            if bip_39_2_word_underscore != "":
+                oomp_parts_bip_39_2_word_underscore[bip_39_2_word_underscore] = part_id
+    else:
+        print("no repo_list")
+        import time
+        time.sleep(30)
 
 def generate_pdf(**kwargs):
     generate_pdf_force = kwargs.get("generate_pdf_force", False)
@@ -363,12 +381,23 @@ def generate_pdf(**kwargs):
 
 if __name__ == '__main__':
     #app.run(host='0.0.0.0', port=1112, debug=True, threaded=True)
+    file_configuration = "configuration\working.yaml"
+    try:
+        with open(file_configuration, "r") as infile:
+            configuration = yaml.load(infile, Loader=yaml.FullLoader)
+    except Exception as e:
+        print(f"error loading configuration {e}")
+        configuration = {}
+
     kwargs = {}
     kwargs["load_parts_force"] = True
     #kwargs["load_parts_force"] = False
 
     kwargs["generate_pdf_force"] = False
     #kwargs["generate_pdf_force"] = True
+    
+    kwargs.update(configuration)
+
     load_parts(**kwargs)
     generate_pdf(**kwargs)
     app.run(host='0.0.0.0', port=1112) # faster launch no debug
