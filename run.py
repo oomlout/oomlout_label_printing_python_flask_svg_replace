@@ -7,6 +7,8 @@ import oomp
 import shlex
 import re
 
+kwargs_configuration = {}
+
 file_log = "temporary/log.yaml"
 #if log file doesn't exist create it
 if not os.path.exists(file_log):
@@ -22,6 +24,7 @@ modes = ["label", "oomp", "oompa"]
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    global kwargs_configuration
     entries = []    
     label = ""
     kwargs = {}
@@ -43,11 +46,15 @@ def index():
                 mode = label_args[0]
                 content = label_args[-1]
             elif len(label_args) == 1:
-                mode = "label"
-                content = label_args[0]
-            else:
+                test = label_args[0]
                 mode = ""
                 content = ""
+                if test != "reload":
+                    mode = "label"
+                    content = label_args[0]
+                else:
+                    mode = "reload"
+                    content = ""
             #arg check
             arg_list = []
             args = {}
@@ -72,7 +79,10 @@ def index():
             elif mode == "oomp":
                 kwargs["file_label_end"] = "label_oomlout_76_2_mm_50_8_mm.pdf"
                 kwargs = label_print_oomp(**kwargs)
-        
+            elif mode == "reload":
+                kwargs["load_parts_force"] = True
+                kwargs["status"] = "reloading parts"                
+                load_parts(**kwargs_configuration)
             
 
         
@@ -307,8 +317,24 @@ def load_parts(**kwargs):
     file_label_bases = []
     if repo_list != []:
         for repo in repo_list:
+            #git pull the repo
             #grab the base name of the repo from the end of the url
             repo_directory_base = repo["url"].split("/")[-1]
+            
+
+            if True:
+                import subprocess
+                command = f"cd {repo_base} & git clone {repo['url']}"                
+                print(command)
+                subprocess.run(command, shell=True)
+                command = f"cd {repo_base}\\{repo_directory_base} & git pull"                
+                print(command)
+                subprocess.run(command, shell=True)
+                pass
+
+
+
+            
             directory_parts = f"{repo_base}\\{repo_directory_base}\\parts"
             file_label_bases.append(directory_parts)
             kwargs["file_label_bases"] = file_label_bases
@@ -388,7 +414,7 @@ def generate_pdf(**kwargs):
         
     
 
-if __name__ == '__main__':
+if __name__ == '__main__':    
     #app.run(host='0.0.0.0', port=1112, debug=True, threaded=True)
     file_configuration = "configuration\\working.yaml"
     try:
@@ -407,7 +433,7 @@ if __name__ == '__main__':
     
     kwargs.update(configuration)
 
-    
+    kwargs_configuration = kwargs
 
     load_parts(**kwargs)
     generate_pdf(**kwargs)
