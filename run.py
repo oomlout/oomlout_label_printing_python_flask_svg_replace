@@ -40,6 +40,7 @@ def index():
         label_args = process_args(label)
         kwargs["label_args"] = label_args
         label_args_list = copy.deepcopy(label_args)
+        mode = ""
         for label_args in label_args_list:            
             #get the mode and content
             if len(label_args) > 1:
